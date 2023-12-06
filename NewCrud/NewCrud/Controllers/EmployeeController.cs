@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using NewCrud.Models;
+using NewCrud.Services.Employees;
 
 namespace NewCrud.Controllers
 {
@@ -12,17 +13,27 @@ namespace NewCrud.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env)
+        private readonly IEmployeeRepository _employeeRepository;
+        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env, IEmployeeRepository employeeRepository)
         {
             _configuration = configuration;
             _env = env;
+            _employeeRepository = employeeRepository;
         }
 
-        [Route("GetEmpDetails")]
-        [HttpGet]
-        public JsonResult GetEmpDetails()
+        [HttpGet("GetEmpDetails")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
+        public IActionResult GetEmpDetails()
         {
-            string q = @"select eid, ename, deptname, convert(varchar(10), dateofjoining, 120) as DateOfJoining, photofilename from employee";
+            var employees = _employeeRepository.GetEmployees();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(employees);
+           /* string q = @"select eid, ename, deptname, convert(varchar(10), dateofjoining, 120) as DateOfJoining, photofilename from employee";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
             SqlDataReader myReader;
@@ -40,9 +51,10 @@ namespace NewCrud.Controllers
                     myCon.Close();
                 }
             }
+           */
             //string temp = JsonConvert.SerializeObject(table);
 
-            return new JsonResult(table);
+           // return new JsonResult(table);
 
         }
 

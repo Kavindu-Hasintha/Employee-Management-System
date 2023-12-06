@@ -1,9 +1,12 @@
-﻿namespace NewCrud.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace NewCrud.Models
 {
     public class Department
     {
-        public int did { get; set; }
+        public int Id { get; set; }
 
-        public string dname { get; set; }
+        public string Name { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }
