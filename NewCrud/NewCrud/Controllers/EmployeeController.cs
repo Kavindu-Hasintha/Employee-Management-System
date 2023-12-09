@@ -7,18 +7,22 @@ using NewCrud.Services.Employees;
 
 namespace NewCrud.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
         private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env, IEmployeeRepository employeeRepository)
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
+        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env, IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository, IMapper mapper)
         {
             _configuration = configuration;
             _env = env;
             _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("getallemployeedetails")]
@@ -34,12 +38,49 @@ namespace NewCrud.Controllers
 
             return Ok(employees);
         }
-        /*
+        
         [HttpPost("registeremployee")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult RegisterEmployee([FromBody])
-        */
+        public IActionResult RegisterEmployee([FromQuery] int departmentId, [FromBody] EmployeeRegisterDto registerEmployee)
+        {
+            if (registerEmployee == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (registerEmployee.FirstName.Length == 0 || registerEmployee.LastName.Length == 0 || registerEmployee.dateofjoining.ToString().Length == 0)
+            {
+                ModelState.AddModelError("EmployeeError", "Please fill all fields.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (_employeeRepository.EmployeeExists(registerEmployee.FirstName))
+            {
+                ModelState.AddModelError("EmployeeError", "Employee already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            var department = _departmentRepository.GetDepartment(departmentId);
+
+            if (department == null)
+            {
+                ModelState.AddModelError("EmployeeError", "Invalid department.");
+                return StatusCode(422, ModelState);
+            }
+
+            var employeeMap = _mapper.Map<Employee>(registerEmployee);
+            employeeMap.Department = department;
+
+            if (!_employeeRepository.RegisterEmployee(employeeMap))
+            {
+                ModelState.AddModelError("EmployeeError", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Employee registered successfully!");
+        }
+        
         /*
         [HttpPut]
         public JsonResult Put(Employee emp)

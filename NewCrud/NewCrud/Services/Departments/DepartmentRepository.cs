@@ -8,21 +8,26 @@
             _context = context;
         }
 
+        public bool DepartmentExists(string name)
+        {
+            return _context.Departments.Any(x => x.Name == name);
+        }
+
         public bool CreateDepartment(Department department)
         {
             _context.Add(department);
             return Save();
         }
 
-        public bool DepartmentExists(string name)
-        {
-            return _context.Departments.Any(x => x.Name == name);
-        }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public Department GetDepartment(int id)
+        {
+            return _context.Departments.Where(d => d.Id == id).FirstOrDefault();
         }
     }
 }

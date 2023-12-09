@@ -10,9 +10,27 @@ namespace NewCrud.Services.Employees
         {
             _context = context;
         }
+
+        public bool EmployeeExists(string firstName)
+        {
+            return _context.Employees.Any(emp => emp.FirstName == firstName);
+        }
+
         public ICollection<Employee> GetEmployees()
         {
             return _context.Employees.OrderBy(e => e.Id).ToList();
+        }
+
+        public bool RegisterEmployee(Employee employee)
+        {
+            _context.Add(employee);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

@@ -39,6 +39,78 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Gell all employee details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:31962/Employee/getallemployeedetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Employee",
+								"getallemployeedetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new employee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Steve\",\r\n  \"lastName\": \"Smith\",\r\n  \"dateofjoining\": \"2023-11-14\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:31962/Employee/registeremployee?departmentId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Employee",
+								"registeremployee"
+							],
+							"query": [
+								{
+									"key": "departmentId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
