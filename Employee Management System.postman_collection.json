@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "0af89cb0-1b6e-4369-94b7-e3877d3a9342",
+		"name": "Employee Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20980172"
+	},
+	"item": [
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "Register Department",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"IT 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:31962/Department/registerdepartment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"registerdepartment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

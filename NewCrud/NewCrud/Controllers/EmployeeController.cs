@@ -34,12 +34,12 @@ namespace NewCrud.Controllers
 
             return Ok(employees);
         }
-
+        /*
         [HttpPost("registeremployee")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult RegisterEmployee([FromBody])
-
+        */
         /*
         [HttpPut]
         public JsonResult Put(Employee emp)

@@ -1,24 +1,58 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authentication;
-using System.Reflection.PortableExecutable;
-using NewCrud.Models;
 
 namespace NewCrud.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-
         private readonly IConfiguration _configuration;
-        public DepartmentController(IConfiguration configuration)
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
+        public DepartmentController(IConfiguration configuration, IDepartmentRepository departmentRepository, IMapper mapper)
         {
             _configuration = configuration;
+            _departmentRepository = departmentRepository;
+            _mapper = mapper;
+        }
+
+        [HttpPost("registerdepartment")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult RegisterDepartment([FromBody] DepartmentRegisterDto registerDepartment)
+        {
+            if (registerDepartment == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (registerDepartment.Name.Length == 0)
+            {
+                ModelState.AddModelError("DepartmentError", "Please fill all the fields.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (_departmentRepository.DepartmentExists(registerDepartment.Name))
+            {
+                ModelState.AddModelError("DepartmentError", "Department already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var departmentMap = _mapper.Map<Department>(registerDepartment);
+
+            if (!_departmentRepository.CreateDepartment(departmentMap))
+            {
+                ModelState.AddModelError("DepartmentError", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Department added successfully!");
         }
         /*
         [HttpGet]
