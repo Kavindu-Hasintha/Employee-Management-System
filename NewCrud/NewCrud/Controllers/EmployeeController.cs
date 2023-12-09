@@ -21,7 +21,7 @@ namespace NewCrud.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        [HttpGet("GetEmpDetails")]
+        [HttpGet("getallemployeedetails")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
         public IActionResult GetEmpDetails()
         {
@@ -33,61 +33,14 @@ namespace NewCrud.Controllers
             }
 
             return Ok(employees);
-           /* string q = @"select eid, ename, deptname, convert(varchar(10), dateofjoining, 120) as DateOfJoining, photofilename from employee";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(q, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-           */
-            //string temp = JsonConvert.SerializeObject(table);
-
-           // return new JsonResult(table);
-
         }
 
-        [HttpPost]
-        public JsonResult Post(Employee emp)
-        {
-            string q = @"insert into employee (ename, deptname, dateofjoining, photofilename) values (@ename, @deptname, @dateofjoining, @photofilename)";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
+        [HttpPost("registeremployee")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult RegisterEmployee([FromBody])
 
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(q, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@ename", emp.ename);
-                    myCommand.Parameters.AddWithValue("@deptname", emp.deptname);
-                    myCommand.Parameters.AddWithValue("@dateofjoining", emp.dateofjoining);
-                    myCommand.Parameters.AddWithValue("@photofilename", emp.photofilename);
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            
-            return new JsonResult(table);
-
-        }
-
+        /*
         [HttpPut]
         public JsonResult Put(Employee emp)
         {
@@ -168,5 +121,6 @@ namespace NewCrud.Controllers
                 return new JsonResult("error.png");
             }
         }
+        */
     }
 }

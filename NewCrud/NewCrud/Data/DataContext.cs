@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NewCrud.Models;
-using System.Data.SqlClient;
-using System;
-
-namespace NewCrud.Data
+﻿namespace NewCrud.Data
 {
     public class DataContext : DbContext
     {
@@ -12,13 +7,9 @@ namespace NewCrud.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Data Source=DESKTOP-VRF2530\\MSSQL2022;Initial Catalog=crud_full_stack;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;";
+            var connectionString = "Data Source=DESKTOP-VRF2530\\MSSQL2022;Initial Catalog=employeemanagementdb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;";
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
-        }*/
     }
 }

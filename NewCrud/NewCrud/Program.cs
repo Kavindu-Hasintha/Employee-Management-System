@@ -1,8 +1,9 @@
+global using System.ComponentModel.DataAnnotations;
+global using Microsoft.EntityFrameworkCore;
+global using NewCrud.Models;
 using Microsoft.Extensions.FileProviders;
 using NewCrud.Data;
 using NewCrud.Services.Employees;
-using Newtonsoft.Json.Serialization;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +21,6 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
-
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(
-    options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 builder.Services.AddControllers();
 

@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using System.Reflection.PortableExecutable;
-using Newtonsoft.Json;
 using NewCrud.Models;
 
 namespace NewCrud.Controllers
@@ -21,7 +20,7 @@ namespace NewCrud.Controllers
         {
             _configuration = configuration;
         }
-
+        /*
         [HttpGet]
         public JsonResult Get()
         {
@@ -130,5 +129,6 @@ namespace NewCrud.Controllers
             return new JsonResult("Deleted successfully!");
 
         }
+        */
     }
 }

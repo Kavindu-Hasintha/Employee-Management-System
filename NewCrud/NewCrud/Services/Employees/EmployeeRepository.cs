@@ -12,7 +12,7 @@ namespace NewCrud.Services.Employees
         }
         public ICollection<Employee> GetEmployees()
         {
-            return _context.Employees.OrderBy(e => e.eid).ToList();
+            return _context.Employees.OrderBy(e => e.Id).ToList();
         }
     }
 }

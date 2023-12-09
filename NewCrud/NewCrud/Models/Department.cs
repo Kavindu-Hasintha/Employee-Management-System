@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace NewCrud.Models
+﻿namespace NewCrud.Models
 {
     public class Department
     {
         public int Id { get; set; }
-
-        public string Name { get; set; }
+        [Required]
+        public string Name { get; set; } = string.Empty;
         public ICollection<Employee> Employees { get; set; }
     }
 }
