@@ -8,6 +8,16 @@
             _context = context;
         }
 
+        public Department GetDepartment(int id)
+        {
+            return _context.Departments.Where(d => d.Id == id).FirstOrDefault();
+        }
+
+        public ICollection<Department> GetAllDepartments()
+        {
+            return _context.Departments.OrderBy(d => d.Id).ToList();
+        }
+
         public bool DepartmentExists(string name)
         {
             return _context.Departments.Any(x => x.Name == name);
@@ -23,11 +33,6 @@
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
-        }
-
-        public Department GetDepartment(int id)
-        {
-            return _context.Departments.Where(d => d.Id == id).FirstOrDefault();
         }
     }
 }

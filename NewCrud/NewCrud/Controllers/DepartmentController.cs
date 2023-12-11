@@ -54,6 +54,20 @@ namespace NewCrud.Controllers
 
             return Ok("Department added successfully!");
         }
+
+        [HttpGet("getalldepartments")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Department>))]
+        public IActionResult GetAllDepartments()
+        {
+            var departments = _departmentRepository.GetAllDepartments();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(departments);
+        }
         /*
         [HttpGet]
         public JsonResult Get()
