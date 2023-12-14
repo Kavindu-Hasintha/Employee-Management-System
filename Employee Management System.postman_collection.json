@@ -99,6 +99,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Update department",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"IT Math\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:31962/Department/updatedepartment/1002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"updatedepartment",
+								"1002"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
