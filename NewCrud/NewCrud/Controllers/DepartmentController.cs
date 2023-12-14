@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
 
 namespace NewCrud.Controllers
 {
@@ -20,7 +23,7 @@ namespace NewCrud.Controllers
         [HttpPost("registerdepartment")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult RegisterDepartment([FromBody] DepartmentRegisterDto registerDepartment)
+        public async Task<IActionResult> RegisterDepartment([FromBody] DepartmentRegisterDto registerDepartment)
         {
             if (registerDepartment == null)
             {
@@ -46,7 +49,9 @@ namespace NewCrud.Controllers
 
             var departmentMap = _mapper.Map<Department>(registerDepartment);
 
-            if (!_departmentRepository.CreateDepartment(departmentMap))
+            var isCreated = await _departmentRepository.CreateDepartment(departmentMap);
+
+            if (!isCreated)
             {
                 ModelState.AddModelError("DepartmentError", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
@@ -55,11 +60,12 @@ namespace NewCrud.Controllers
             return Ok("Department added successfully!");
         }
 
-        [HttpGet("getalldepartments")]
+        [HttpGet]
+        [Route("getalldepartments")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Department>))]
-        public IActionResult GetAllDepartments()
+        public async Task<IActionResult> GetAllDepartments()
         {
-            var departments = _departmentRepository.GetAllDepartments();
+            var departments = await _departmentRepository.GetAllDepartments();
 
             if (!ModelState.IsValid)
             {
@@ -68,6 +74,43 @@ namespace NewCrud.Controllers
 
             return Ok(departments);
         }
+
+        [HttpGet]
+        [Route("getdepartmentbyid/{id}")]
+        [ProducesResponseType(200, Type = typeof(Department))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetDepartment(int id)
+        {
+            var department = await _departmentRepository.GetDepartment(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(department);
+        }
+
+        [HttpDelete]
+        [Route("deletedepartmentbyid/{id}")]
+        public async Task<IActionResult> DeleteDepartment(int id)
+        {
+            var isDeleted = await _departmentRepository.DeleteDepartment(id);
+
+            if (!isDeleted)
+            {
+                return NotFound();
+            }
+
+            return Ok("Deleted successfully!");
+
+        }
+
         /*
         [HttpGet]
         public JsonResult Get()
@@ -151,32 +194,8 @@ namespace NewCrud.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
-        {
-            string q = @"delete from department where did = @dID";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(q, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@dID", id);
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-
-            return new JsonResult("Deleted successfully!");
-
-        }
+        
         */
+    
     }
 }

@@ -24,6 +24,9 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
 
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {

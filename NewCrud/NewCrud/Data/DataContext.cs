@@ -11,5 +11,12 @@
             optionsBuilder.UseSqlServer(connectionString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.Department)
+            .WithMany(d => d.Employees)
+            .HasForeignKey(ed => ed.DepartmentId);
+        }
     }
 }

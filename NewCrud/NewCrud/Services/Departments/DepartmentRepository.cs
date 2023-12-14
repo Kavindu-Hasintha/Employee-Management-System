@@ -8,14 +8,14 @@
             _context = context;
         }
 
-        public Department GetDepartment(int id)
+        public async Task<Department> GetDepartment(int id)
         {
-            return _context.Departments.Where(d => d.Id == id).FirstOrDefault();
+            return await _context.Departments.Where(d => d.Id == id).Include(e => e.Employees).FirstOrDefaultAsync();
         }
 
-        public ICollection<Department> GetAllDepartments()
+        public async Task<List<Department>> GetAllDepartments()
         {
-            return _context.Departments.OrderBy(d => d.Id).ToList();
+            return await _context.Departments.Include(d => d.Employees).OrderBy(d => d.Id).ToListAsync();
         }
 
         public bool DepartmentExists(string name)
@@ -23,16 +23,30 @@
             return _context.Departments.Any(x => x.Name == name);
         }
 
-        public bool CreateDepartment(Department department)
+        public async Task<bool> CreateDepartment(Department department)
         {
             _context.Add(department);
-            return Save();
+            return await Save();
         }
 
-        public bool Save()
+        public async Task<bool> DeleteDepartment(int id)
         {
-            var saved = _context.SaveChanges();
+            var department = await _context.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                return false;
+            }
+            
+            _context.Departments.Remove(department);
+            return await Save();
+        }
+
+        public async Task<bool> Save()
+        {
+            var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
     }
 }

@@ -18,7 +18,7 @@ namespace NewCrud.Services.Employees
 
         public ICollection<Employee> GetEmployees()
         {
-            return _context.Employees.OrderBy(e => e.Id).ToList();
+            return _context.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToList();
         }
 
         public bool RegisterEmployee(Employee employee)

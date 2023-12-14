@@ -9,7 +9,8 @@
         [Required]
         public string LastName { get; set; } = string.Empty;
         [Required, DataType(DataType.Date)]
-        public DateTime dateofjoining { get; set; }
+        public DateTime DateOfJoin { get; set; }
+        public int DepartmentId { get; set; }
         public Department Department { get; set; }
     }
 }
