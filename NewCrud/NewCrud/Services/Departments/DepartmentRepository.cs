@@ -42,6 +42,20 @@
             return await Save();
         }
 
+        public async Task<bool> UpdateDepartment(int id, DepartmentRegisterDto departmentUpdate)
+        {
+            var department = await _context.Departments.FindAsync(id);
+            
+            if (department == null)
+            {
+                return false;
+            }
+
+            department.Name = departmentUpdate.Name;
+            _context.Update(department);
+            return await Save();
+        }
+
         public async Task<bool> Save()
         {
             var saved = await _context.SaveChangesAsync();

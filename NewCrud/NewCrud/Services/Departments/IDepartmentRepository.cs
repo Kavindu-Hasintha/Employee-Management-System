@@ -7,6 +7,7 @@
         bool DepartmentExists(string name);
         Task<bool> CreateDepartment(Department department);
         Task<bool> DeleteDepartment(int id);
+        Task<bool> UpdateDepartment(int id, DepartmentRegisterDto departmentUpdate);
         Task<bool> Save();
     }
 }

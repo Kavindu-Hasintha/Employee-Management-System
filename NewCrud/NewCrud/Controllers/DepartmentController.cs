@@ -107,8 +107,43 @@ namespace NewCrud.Controllers
                 return NotFound();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return Ok("Deleted successfully!");
 
+        }
+
+        [HttpPut]
+        [Route("updatedepartment/{id}")]
+        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentRegisterDto departmentUpdate)
+        {
+            if (departmentUpdate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (departmentUpdate.Name.Length == 0)
+            {
+                ModelState.AddModelError("DepartmentError", "Please fill all the fields");
+                return StatusCode(422, ModelState);
+            }
+
+            var isUpdated = await _departmentRepository.UpdateDepartment(id, departmentUpdate);
+
+            if (!isUpdated)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Updated successfully!");
         }
 
         /*
@@ -136,33 +171,6 @@ namespace NewCrud.Controllers
             //string temp = JsonConvert.SerializeObject(table);
 
             return new JsonResult(table);
-
-        }
-
-        [HttpPost]
-        public JsonResult Post(Department dept)
-        {
-            string q = @"insert into department values (@deptName)";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(q, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@deptName", dept.dname);
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-
-            return new JsonResult("Added successfully!");
 
         }
 
