@@ -4,7 +4,7 @@
     {
         public MappingProfiles() 
         {
-            CreateMap<DepartmentRegisterDto, Department>();
+            CreateMap<DepartmentDto, Department>();
             CreateMap<EmployeeRegisterDto, Employee>();
         }
     }

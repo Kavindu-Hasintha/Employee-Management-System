@@ -23,7 +23,7 @@ namespace NewCrud.Controllers
         [HttpPost("registerdepartment")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> RegisterDepartment([FromBody] DepartmentRegisterDto registerDepartment)
+        public async Task<IActionResult> RegisterDepartment([FromBody] DepartmentDto registerDepartment)
         {
             if (registerDepartment == null)
             {
@@ -118,7 +118,7 @@ namespace NewCrud.Controllers
 
         [HttpPut]
         [Route("updatedepartment/{id}")]
-        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentRegisterDto departmentUpdate)
+        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentDto departmentUpdate)
         {
             if (departmentUpdate == null)
             {
@@ -145,65 +145,5 @@ namespace NewCrud.Controllers
 
             return Ok("Updated successfully!");
         }
-
-        /*
-        [HttpGet]
-        public JsonResult Get()
-        {
-            string q = @"select did, dname from department";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using(SqlCommand myCommand = new SqlCommand(q, myCon)) 
-                {
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            //string temp = JsonConvert.SerializeObject(table);
-
-            return new JsonResult(table);
-
-        }
-
-        [HttpPut]
-        public JsonResult Put(Department dept)
-        {
-            string q = @"update department set dname = @deptName where did = @dID";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-
-
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(q, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@dID", dept.did);
-                    myCommand.Parameters.AddWithValue("@deptName", dept.dname);
-                    myReader = myCommand.ExecuteReader();
-
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-
-            return new JsonResult("Updated successfully!");
-
-        }
-
-        
-        */
-    
     }
 }

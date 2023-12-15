@@ -42,7 +42,7 @@
             return await Save();
         }
 
-        public async Task<bool> UpdateDepartment(int id, DepartmentRegisterDto departmentUpdate)
+        public async Task<bool> UpdateDepartment(int id, DepartmentDto departmentUpdate)
         {
             var department = await _context.Departments.FindAsync(id);
             
