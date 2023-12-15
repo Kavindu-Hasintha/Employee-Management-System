@@ -37,6 +37,98 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get all departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:31962/Department/getalldepartments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"getalldepartments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get department by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:31962/Department/getdepartmentbyid/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"getdepartmentbyid",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete department by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:31962/Department/deletedepartmentbyid/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"deletedepartmentbyid",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update department",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"IT Math\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:31962/Department/updatedepartment/1002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "31962",
+							"path": [
+								"Department",
+								"updatedepartment",
+								"1002"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

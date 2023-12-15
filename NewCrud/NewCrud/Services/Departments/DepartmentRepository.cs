@@ -8,26 +8,59 @@
             _context = context;
         }
 
+        public async Task<Department> GetDepartment(int id)
+        {
+            return await _context.Departments.Where(d => d.Id == id).Include(e => e.Employees).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Department>> GetAllDepartments()
+        {
+            return await _context.Departments.Include(d => d.Employees).OrderBy(d => d.Id).ToListAsync();
+        }
+
         public bool DepartmentExists(string name)
         {
             return _context.Departments.Any(x => x.Name == name);
         }
 
-        public bool CreateDepartment(Department department)
+        public async Task<bool> CreateDepartment(Department department)
         {
             _context.Add(department);
-            return Save();
+            return await Save();
         }
 
-        public bool Save()
+        public async Task<bool> DeleteDepartment(int id)
         {
-            var saved = _context.SaveChanges();
+            var department = await _context.Departments.FindAsync(id);
+
+            if (department == null)
+            {
+                return false;
+            }
+            
+            _context.Departments.Remove(department);
+            return await Save();
+        }
+
+        public async Task<bool> UpdateDepartment(int id, DepartmentRegisterDto departmentUpdate)
+        {
+            var department = await _context.Departments.FindAsync(id);
+            
+            if (department == null)
+            {
+                return false;
+            }
+
+            department.Name = departmentUpdate.Name;
+            _context.Update(department);
+            return await Save();
+        }
+
+        public async Task<bool> Save()
+        {
+            var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
 
-        public Department GetDepartment(int id)
-        {
-            return _context.Departments.Where(d => d.Id == id).FirstOrDefault();
-        }
     }
 }

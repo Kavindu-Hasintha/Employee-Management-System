@@ -2,9 +2,12 @@
 {
     public interface IDepartmentRepository
     {
-        Department GetDepartment(int id);
+        Task<List<Department>> GetAllDepartments();
+        Task<Department> GetDepartment(int id);
         bool DepartmentExists(string name);
-        bool CreateDepartment(Department department);
-        bool Save();
+        Task<bool> CreateDepartment(Department department);
+        Task<bool> DeleteDepartment(int id);
+        Task<bool> UpdateDepartment(int id, DepartmentRegisterDto departmentUpdate);
+        Task<bool> Save();
     }
 }
