@@ -1,6 +1,6 @@
 ﻿namespace NewCrud.Dto
 {
-    public class DepartmentRegisterDto
+    public class DepartmentDto
     {
         [Required]
         public string Name { get; set; } = string.Empty;

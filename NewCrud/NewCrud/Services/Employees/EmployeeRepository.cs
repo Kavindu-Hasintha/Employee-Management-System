@@ -11,25 +11,25 @@ namespace NewCrud.Services.Employees
             _context = context;
         }
 
-        public bool EmployeeExists(string firstName)
+        public async Task<bool> EmployeeExists(string firstName)
         {
-            return _context.Employees.Any(emp => emp.FirstName == firstName);
+            return await _context.Employees.AnyAsync(emp => emp.FirstName == firstName);
         }
 
-        public ICollection<Employee> GetEmployees()
+        public async Task<List<Employee>> GetEmployees()
         {
-            return _context.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToList();
+            return await _context.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToListAsync();
         }
 
-        public bool RegisterEmployee(Employee employee)
+        public async Task<bool> RegisterEmployee(Employee employee)
         {
             _context.Add(employee);
-            return Save();
+            return await Save();
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            var saved = _context.SaveChanges();
+            var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
     }
