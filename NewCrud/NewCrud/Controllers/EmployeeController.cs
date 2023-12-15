@@ -26,10 +26,10 @@ namespace NewCrud.Controllers
         }
 
         [HttpGet("getallemployeedetails")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
-        public IActionResult GetEmpDetails()
+        // [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
+        public async Task<IActionResult> GetEmployeeDetails()
         {
-            var employees = _employeeRepository.GetEmployees();
+            var employees = await _employeeRepository.GetEmployees();
 
             if (!ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace NewCrud.Controllers
 
             return Ok(employees);
         }
-        
+        /*
         [HttpPost("registeremployee")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

@@ -16,9 +16,18 @@ namespace NewCrud.Services.Employees
             return await _context.Employees.AnyAsync(emp => emp.FirstName == firstName);
         }
 
-        public async Task<List<Employee>> GetEmployees()
+        public async Task<object> GetEmployees()
         {
-            return await _context.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToListAsync();
+            // return await _context.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToListAsync();
+            return await _context.Employees.OrderBy(e => e.Id).Select(e => new
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    DateOfJoined = e.DateOfJoin,
+                    DepartmentId = e.DepartmentId,
+                    DepartmentName = e.Department.Name
+                }).ToListAsync();
         }
 
         public async Task<bool> RegisterEmployee(Employee employee)
